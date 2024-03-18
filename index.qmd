@@ -1,7 +1,9 @@
 ---
-title: "citation-analysis"
+title: "Exploring the world of JGI Data Citations"
 ---
 
-This is a Quarto website.
+* First we'll start off by feeding our data through an LLM [Mistral](mistral.ipynb)
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+<br><br><br><br><br><br>
+This was built with [Quarto](https://quarto.org/)
