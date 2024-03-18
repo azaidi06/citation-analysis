@@ -1,6 +1,7 @@
 .DS_Store
 _site
 /.quarto/
+/_site/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
