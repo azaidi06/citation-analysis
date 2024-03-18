@@ -1,3 +1,5 @@
+.DS_Store
+_site
 /.quarto/
 
 # Byte-compiled / optimized / DLL files

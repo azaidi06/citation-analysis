@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-About this site
+Notebooks and other artifacts depicting our work on JGI's citation context analsis problem

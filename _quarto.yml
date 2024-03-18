@@ -9,11 +9,10 @@ website:
         text: Home
       - about.qmd
 
-format:
+format: 
   html:
-    theme: cosmo
-    css: styles.css
+    code-fold: true
+    theme:
+          light: flatly
+          dark: darkly
     toc: true
-
-
-
