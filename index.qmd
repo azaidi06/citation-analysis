@@ -2,7 +2,7 @@
 title: "Exploring the world of JGI Data Citations"
 ---
 
-* First we'll start off by feeding our data through an LLM [Mistral](mistral.ipynb)
+* First we'll start off by feeding our data through an LLM --> [Mistral](mistral.ipynb)
 
 
 <br><br><br><br><br><br>
