@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>JGI Citation Analysis – mistral</title>
+<title>JGI Citation Analysis - Mistral Demo</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,328 +141,196 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#now-lets-declare-a-function-that-will-tokenize-our-text-and-generate-a-response-to-the-given-text-based-on-the-parameters-we-choose" id="toc-now-lets-declare-a-function-that-will-tokenize-our-text-and-generate-a-response-to-the-given-text-based-on-the-parameters-we-choose" class="nav-link active" data-scroll-target="#now-lets-declare-a-function-that-will-tokenize-our-text-and-generate-a-response-to-the-given-text-based-on-the-parameters-we-choose">Now lets declare a function that will tokenize our text and generate a response to the given text, based on the parameters we choose</a></li>
+  <li><a href="#that-seems-to-make-sense-now-lets-build-a-more-useful-and-relevant-prompt" id="toc-that-seems-to-make-sense-now-lets-build-a-more-useful-and-relevant-prompt" class="nav-link" data-scroll-target="#that-seems-to-make-sense-now-lets-build-a-more-useful-and-relevant-prompt">That seems to make sense – now lets build a more useful and relevant prompt</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-
-
-<div class="cell" data-tags="[]" data-execution_count="3">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_models(parent_name):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    cache_dir <span class="op">=</span> <span class="st">'/pscratch/sd/a/azaidi/llm/cache/models--'</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    models <span class="op">=</span> [path.split(<span class="st">'--'</span>)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> path <span class="kw">in</span> <span class="op">\</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              glob.glob(cache_dir <span class="op">+</span> parent_name)]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'the </span><span class="sc">{</span>parent_name<span class="sc">}</span><span class="ss"> models are: </span><span class="sc">{</span>models<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mistral Demo</h1>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="4">
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-tags="[]" data-execution_count="1">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_models(<span class="st">'mistralai*'</span>), get_models(<span class="st">'meta-llama*'</span>)<span class="op">;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">### do not run this cell block unless using Perlmutter</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>env HF_DATASETS_CACHE<span class="op">=/</span>pscratch<span class="op">/</span>sd<span class="op">/</span>a<span class="op">/</span>azaidi<span class="op">/</span>llm<span class="op">/</span>cache</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>env HF_HOME<span class="op">=/</span>pscratch<span class="op">/</span>sd<span class="op">/</span>a<span class="op">/</span>azaidi<span class="op">/</span>llm<span class="op">/</span>cache</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cache_dir <span class="op">=</span> <span class="st">'/pscratch/sd/a/azaidi/llm/cache'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>the mistralai* models are: ['Mistral-7B-v0.1', 'Mixtral-8x7B-Instruct-v0.1', 'Mistral-7B-Instruct-v0.2']
-the meta-llama* models are: ['Llama-2-7b-hf', 'Llama-2-70b-hf', 'Llama-2-70b-chat-hf']</code></pre>
+<pre><code>env: HF_DATASETS_CACHE=/pscratch/sd/a/azaidi/llm/cache
+env: HF_HOME=/pscratch/sd/a/azaidi/llm/cache</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="23">
+<p>First lets setup a function to call the <a href="https://metadata.namesforlife.com">DCE</a> in order to get the full text of our desired articles. This function will return the full text of the article in question by default. If you would prefer to receive the metadata, you can set the <code>full_text</code> field to False</p>
+<ul>
+<li>In order to get the full-text – you need to provide the pubmed <code>central</code> ID <br></li>
+<li>In order to get the metadata – you need to provide the pubmed ID <br><br></li>
+</ul>
+<p>By default, our function will pull one of our main reference papers –&gt; pmid: 31801294 / pmcid: PMC6955870 - Paper title: “Comparative Genomics Reveals Metabolic Specificity of Endozoicomonas Isolated from a Marine Sponge and the Genomic Repertoire for Host-Bacteria Symbioses.”</p>
+<div class="cell" data-tags="[]" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>call_dce(full_text<span class="op">=</span><span class="va">False</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="23">
-<pre><code>MixtralForCausalLM(
-  (model): MixtralModel(
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>'{"title":"Comparative Genomics Reveals Metabolic Specificity of Endozoicomonas Isolated from a Marine Sponge and the Genomic Repertoire for Host-Bacteria Symbioses","doi":"10.3390/microorganisms7120635","pmc":"PMC6955870","pmid":"31801294","date":"2019-12-01","authors":[],"publication_title":"Microorganisms","publication_abbrev":"Microorganisms","publication_issn":null,"volume":null,"issue":null,"e_location":null,"first_page":null,"last_page":null}'</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#model_name = "mistralai/Mixtral-8x7B-Instruct-v0.1"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"mistralai/Mistral-7B-Instruct-v0.2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Do we want to quantize our model?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>four_bit <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>eight_bit <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Lets take a look at our Mistral model <a href="https://huggingface.co/mistralai/Mixtral-8x7B-v0.1">Mixtral-7B-Instruct-v0.2</a></p>
+<div class="cell" data-tags="[]" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>MistralForCausalLM(
+  (model): MistralModel(
     (embed_tokens): Embedding(32000, 4096)
     (layers): ModuleList(
-      (0-31): 32 x MixtralDecoderLayer(
-        (self_attn): MixtralSdpaAttention(
-          (q_proj): Linear4bit(in_features=4096, out_features=4096, bias=False)
-          (k_proj): Linear4bit(in_features=4096, out_features=1024, bias=False)
-          (v_proj): Linear4bit(in_features=4096, out_features=1024, bias=False)
-          (o_proj): Linear4bit(in_features=4096, out_features=4096, bias=False)
-          (rotary_emb): MixtralRotaryEmbedding()
+      (0-31): 32 x MistralDecoderLayer(
+        (self_attn): MistralSdpaAttention(
+          (q_proj): Linear(in_features=4096, out_features=4096, bias=False)
+          (k_proj): Linear(in_features=4096, out_features=1024, bias=False)
+          (v_proj): Linear(in_features=4096, out_features=1024, bias=False)
+          (o_proj): Linear(in_features=4096, out_features=4096, bias=False)
+          (rotary_emb): MistralRotaryEmbedding()
         )
-        (block_sparse_moe): MixtralSparseMoeBlock(
-          (gate): Linear4bit(in_features=4096, out_features=8, bias=False)
-          (experts): ModuleList(
-            (0-7): 8 x MixtralBlockSparseTop2MLP(
-              (w1): Linear4bit(in_features=4096, out_features=14336, bias=False)
-              (w2): Linear4bit(in_features=14336, out_features=4096, bias=False)
-              (w3): Linear4bit(in_features=4096, out_features=14336, bias=False)
-              (act_fn): SiLU()
-            )
-          )
+        (mlp): MistralMLP(
+          (gate_proj): Linear(in_features=4096, out_features=14336, bias=False)
+          (up_proj): Linear(in_features=4096, out_features=14336, bias=False)
+          (down_proj): Linear(in_features=14336, out_features=4096, bias=False)
+          (act_fn): SiLU()
         )
-        (input_layernorm): MixtralRMSNorm()
-        (post_attention_layernorm): MixtralRMSNorm()
+        (input_layernorm): MistralRMSNorm()
+        (post_attention_layernorm): MistralRMSNorm()
       )
     )
-    (norm): MixtralRMSNorm()
+    (norm): MistralRMSNorm()
   )
   (lm_head): Linear(in_features=4096, out_features=32000, bias=False)
 )</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="10">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#model.to('cuda');</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <div class="cell" data-tags="[]" data-execution_count="12">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(txt), tokenizer(txt).input_ids.<span class="fu">__len__</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now that we have our model, we can move it onto the GPU (if it's available)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (torch.cuda.is_available() <span class="op">|</span> <span class="op">~</span>four_bit <span class="op">|</span> <span class="op">~</span>eight_bit): </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    model.to(<span class="st">'cuda'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>(37593, 12299)</code></pre>
 </div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="13">
+<p>Before feeding any text into our model, lets just quickly get a sense of how our tokenizer will break down our text into tokens</p>
+<section id="now-lets-declare-a-function-that-will-tokenize-our-text-and-generate-a-response-to-the-given-text-based-on-the-parameters-we-choose" class="level3">
+<h3 class="anchored" data-anchor-id="now-lets-declare-a-function-that-will-tokenize-our-text-and-generate-a-response-to-the-given-text-based-on-the-parameters-we-choose">Now lets declare a function that will tokenize our text and generate a response to the given text, based on the parameters we choose</h3>
+<div class="cell" data-tags="[]" data-execution_count="38">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The ostrich shit its pants while walking across the street. But, the Tyrannosaurus rex was one of the most ferocious predators to ever walk the Earth. With a massive body, sharp teeth, and jaws so powerful they could crush a car, this famous carnivore dominated the forested river valleys in western North America during the late Cretaceous period, 68 million years ago. </span><span class="ch">\n</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"The ostrich pooped its pants while walking across the street. But, the Tyrannosaurus rex was one of the most ferocious predators to ever walk the Earth. With a massive body, sharp teeth, and jaws so powerful they could crush a car, this famous carnivore dominated the forested river valleys in western North America during the late Cretaceous period, 68 million years ago. </span><span class="ch">\n</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="14">
+<div class="cell" data-tags="[]" data-execution_count="39">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>get_response(prompt<span class="op">=</span><span class="ss">f'what was the previous text about? </span><span class="ch">\n</span><span class="sc">{</span>prompt<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>/pscratch/sd/a/azaidi/.conda/envs/dl/lib/python3.10/site-packages/bitsandbytes/nn/modules.py:226: UserWarning: Input type into Linear4bit is torch.float16, but bnb_4bit_compute_dtype=torch.float32 (default). This will lead to slow inference or training speed.
-  warnings.warn(f'Input type into Linear4bit is torch.float16, but bnb_4bit_compute_dtype=torch.float32 (default). This will lead to slow inference or training speed.')</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>what was the previous text about? 
-The ostrich shit its pants while walking across the street. But, the Tyrannosaurus rex was one of the most ferocious predators to ever walk the Earth. With a massive body, sharp teeth, and jaws so powerful they could crush a car, this famous carnivore dominated the forested river valleys in western North America during the late Cretaceous period, 68 million years ago. 
+The ostrich pooped its pants while walking across the street. But, the Tyrannosaurus rex was one of the most ferocious predators to ever walk the Earth. With a massive body, sharp teeth, and jaws so powerful they could crush a car, this famous carnivore dominated the forested river valleys in western North America during the late Cretaceous period, 68 million years ago. 
  
-
-The previous text was about the Tyrannosaurus rex, a large carnivorous dinosaur that lived during the late Cretaceous period. The text describes its massive body, sharp teeth, and powerful jaws, and mentions that it was one of the most ferocious predators to ever walk the Earth. It does not mention the ostrich or its pants.</code></pre>
+The previous text was about an ostrich having an accident and the description of a Tyrannosaurus rex, a dinosaur known for its ferocity and dominance during the late Cretaceous period.</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="15">
+</section>
+<section id="that-seems-to-make-sense-now-lets-build-a-more-useful-and-relevant-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="that-seems-to-make-sense-now-lets-build-a-more-useful-and-relevant-prompt">That seems to make sense – now lets build a more useful and relevant prompt</h3>
+<div class="cell" data-tags="[]" data-execution_count="41">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>txt, pmid <span class="op">=</span> call_dce(context<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(txt), pmid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>(37593, 'PMC6000758')</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="29">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tokenizer.encode([1,])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_prompt(questions, input_text):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"[INST] You are a microbiology journal editor. Please answer as concisely as possible: </span><span class="sc">{</span>questions<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> here is the text in question: </span><span class="sc">{</span>input_text<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> [/INST]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="31">
+<div class="cell" data-tags="[]" data-execution_count="43">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tokenizer(txt,return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="31">
-<pre><code>{'input_ids': tensor([[    1,   415, 13993,  ...,   302,  2145, 28723]]), 'attention_mask': tensor([[1, 1, 1,  ..., 1, 1, 1]])}</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="19">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_prompt(questions, input_text):</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"[INST] You are a microbiology journal editor. Please answer as concisely as possible: </span><span class="sc">{</span>questions<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> here is the text in question: </span><span class="sc">{</span>input_text<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> [/INST]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="20">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>get_response(prompt<span class="op">=</span>build_prompt(questions<span class="op">=</span><span class="st">"can you provide the exact quote surrounding a mention of GCA_00092485.1?"</span>,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>             input_text<span class="op">=</span>call_dce(context<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>][:<span class="dv">3700</span>],),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>             new_tokens<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>get_response(prompt<span class="op">=</span>build_prompt(questions<span class="op">=</span><span class="st">"can you provide the exact quote surrounding a mention of GCA_00092485.1?"</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             input_text<span class="op">=</span>call_dce(full_text<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>][:<span class="dv">3700</span>],),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>             new_tokens<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[INST] You are a microbiology journal editor. Please answer as concisely as possible: can you provide the exact quote surrounding a mention of GCA_00092485.1? 
- here is the text in question: The ocean covers 71% of the earth’s surface and is regarded as the largest habitat for life on the planet Earth.
-Marine microorganisms are known to play an essential role in energy conservation and biogeochemical cycling in the oceans.
-Heterotrophic prokaryotes are considered key players in the decomposition of the dissolved organic matter (DOM) and particulate organic matter (POM) present therein (DeLong and Karl, 2005; Azam and Malfatti, 2007).
-Oceanospirillales is an order of proteobacteria with seven families of heterotrophic marine bacteria that are usually associated with oil spills and are known to be involved in xylan and hydrocarbon utilization (Choi et al., 2012; Cao et al., 2014).
-Recently, a new family named Kangiellaceae has been proposed within the order Oceanospirillales based on phylogenetic, chemotaxonomic and physiological characteristics; this family comprises three genera: Kangiella, Aliikangiella, and Pleionea (Wang et al., 2015).
-Although the Kangiella genus was reclassified within Kangiellaceae instead of Alcanivoracaceae based on 16S rRNA gene phylogeny (Wang et al., 2015), taxonomic signatures at the genomic level are still needed.
-Kangiella are gram-negative long rods that are non-motile and non-spore-forming bacteria.
-Nine strains belonging to the genus Kangiella have been isolated from various marine environments, including marine sand (Kim et al., 2015), tidal flat sediments and coastal regions (Yoon et al., 2004, 2012; Romanenko et al., 2010; Ahn et al., 2011; Jean et al., 2012; Lee et al., 2013).
-For example, both K. koreensis DSM 16069 and Kangiella aquimarina DSM 16071 were isolated from tidal flat sediment at Daepo Beach, Yellow Sea, Korea, and were shown to grow optimally at 30–37°C and pH 7.0–8.0 (Yoon et al., 2004).
-K. sediminilitoris KCTC 23892 was isolated from tidal flat sediment from the South Sea in South Korea, which was shown to grow optimally at 30–37°C and pH 7.0–7.5 (Lee et al., 2013).
-Kangiella geojedonensis KCTC 23420 was isolated from seawater off the southern coast of Korea, and was shown to grow optimally at 10–40°C and pH 7.0–7.5 (Yoon et al., 2004).
-Recently, we isolated a novel strain named Kangiella profundi from a deep sea sediment sample that was collected from the southwest Indian Ocean at a depth of 2784 m (Xu et al., 2015).
-Due to limited research, our understanding about the metabolic potential and ecological functions of bacteria belonging to the family Kangiellaceae is still obscure.
-To date, no genome has been completely sequenced from either of the two genera Aliikangiella and Pleionea.
-Moreover, only three completely sequenced genomes of the genus Kangiella, i.e., K. koreensis DSM 16069 (GenBank accession: GCA_000024085.1), K. sediminilitoris KCTC 23892 (GenBank accession: GCA_001708405.1), and K. geojedonensis KCTC 23420 (GenBank accession: GCA_000981765.1), are available.
-In this study, we report the complete genome sequence of K. profundi FT102 (GenBank accession: CP025120).
-Comparative genomics-based approaches were utilized to explore the metabolic potential of Kangiella.
-We show that featured genomic reduction in Kangiella is due to low genomic redundancy as well as Kangiella lineage-specific gene loss.
-The metabolic base of Kangiella as a powerful extracellular protein degrader was investigated.
-Our study provides the first insights into the genomic and metabolic capabilities of Kangiella.
-Kangiella profundi FT102T ( = CGMCC 1.12959T = KCTC 42297T = JCM 30232T) is from our laboratory stock.
-The strains K. koreensis DSM 16069 (JCM 12317), K. aquimarina DSM 16071 (JCM 12318) and K. geojedonensis KCTC 23420 were obtained from Japan Collection of Microorganisms (J 
- [/INST] The exact quote surrounding the mention of GCA_000924085.1 is: "only three completely sequenced genomes of the genus Kangiella, i.e., K. koreensis DSM 16069 (GenBank accession: GCA_000024085.1), K. sediminilitoris KCTC 23892 (GenBank accession: GCA_001708405.1), and K. geojedonensis KCTC 23420 (GenBank accession: GCA_000981765.1), are available." This indicates that the genome of K. koreensis DSM 16069, with GenBank accession GCA_000024085.1, has been completely sequenced.</code></pre>
+ here is the text in question: Sponges (Phylum Porifera) interact and co-evolve with microbes belonging to different lineages.
+Despite the ubiquity of microbes in a wide range of environments, associations between sponge and microbes are not random and often result in sharing of the resources in a particular niche.
+Moreover, sponge-associated bacteria play a crucial role in sponge biology, metabolism, and ecology [1].
+Studies using whole-genome sequencing of microbes isolated from sponges and metagenomic binning approaches have shown the genomic and molecular mechanisms involved in the successful association between the sponges and symbiotic microbes.
+For instance, genome streamlining [2], evolution of bacterial genome through transposable insertion elements [3], presence of adhesion-related genes, the genes encoding eukaryotic-like protein, effector/virulence factors [4,5,6,7] were reported among several sponge-associated bacteria.
+Since the first description of the genus Endozoicomonas (Gammaproteobacteria; Oceanospirillales) isolated from the sea slug Elysia ornate [8], Endozoicomonas has been widely reported to be found in association with different marine invertebrates.
+For instance, several studies reported the presence of Endozoicomonas in sponges, tunicates, cnidarians, annelids, molluscs, and fishes [9,10,11,12,13,14] across large geographical scales (see the review by [15] for further details).
+Several studies found the predominance of Endozoicomonas in healthy Mediterranean gorgonians—Paramuricea clavata and coral—Porites astreoides when compared to their diseased counterparts [16,17], suggesting that strains belonging to this genus have been considered to be an integral part of the healthy holobiont.
+Though numerous studies based on culture-independent analyses using the 16S rRNA (ribosomal RNA) genes have detected the distribution and abundance of Endozoicomonas, there are very few reports investigating the physiological capabilities and genomic features of these enigmatic bacterial members of the genus Endozoicomonas due to the difficulties in isolation/culturing from the host tissues.
+So far, only 11 draft genomes of Endozoicomonas isolated from sponges, tunicates, coral, mollusc, bryozoa, and fishes are publicly available.
+Analysis of the draft genomes obtained from bacterial isolates, single cell genomics, and metagenomic binning approaches suggest that Endozoicomonas genomes are encoded with a higher frequency of repeat sequences indicating various stages of genome erosion, possible mechanisms involved in host-endosymbiont relationship, enrichment of genes responsible for transporter activity, protein secretion, and transposase, and niche-specific changes through the expansion of virulence genes and loss of metabolic functions [14,18,19].
+Despite the abovementioned features detected in the genomes of coral- and fish-associated Endozoicomonas, little genomic information is available for sponge-associated Endozoicomonas.
+In this study we sequenced a high-quality draft genome of Endozoicomonas sp. OPT23 isolated from the intertidal marine sponge Ophlitaspongia papilla and performed a comprehensive comparative genomics analysis with other members (n = 11) of the genus to unravel the genomic signatures of the sponge-associated Endozoicomonas sp. OPT23.
+Endozoicomonas sp. OPT23 was isolated from the intertidal marine sponge O. papilla (Demospongiae) collected from the Atlantic coast of Portugal.
+Approximately 1 cm3 of sponge tissue was washed to remove the loosely associated microbes and other debris, followed by grinding using sterile seawater.
+The homogenate was serially diluted and spread plated on DifcoTM Marine Agar 2216(BD Difco, United Kingdom) 
+ [/INST] The text mentions GCA_00092485.1 in relation to the publicly available draft genomes of Endozoicomonas, but an exact quote is not provided. However, the text states that there are only 11 draft genomes of Endozoicomonas publicly available, including the one from GCA_00092485.1.</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="83">
+<p>Some work left to be done to make this more sensible and workable :)</p>
+<div class="cell" data-tags="[]">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#get_response(prompt=f'can you provide the exact quote surrounding a mention of GCA_000024085.1? Please provide the sentence before and after. \n{txt} -------\n\n')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mistral prompt format</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;s&gt;[INST] Instruction [/INST] Model answer&lt;/s&gt;[INST] Follow-up instruction [/INST]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-tags="[]">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mistral prompt format</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;s&gt;[INST] Instruction [/INST] Model answer&lt;/s&gt;[INST] Follow-up instruction [/INST]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prompt = f'&lt;s&gt;[INST] Can you summarize this text? {sample_text} [/INST]'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#prompt = f'&lt;s&gt;[INST] {text} [/INST]'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-</div>
-<div class="cell" data-tags="[]">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prompt = f'&lt;s&gt;[INST] Can you summarize this text? {sample_text} [/INST]'</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#prompt = f'&lt;s&gt;[INST] {text} [/INST]'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="20">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"can you tell me about yourself?"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="21">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model_inputs <span class="op">=</span> tokenizer([prompt], return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(<span class="st">'cuda'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="22">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(model_inputs.input_ids[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="22">
-<pre><code>8</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="24">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>generated_ids <span class="op">=</span> model.generate(<span class="op">**</span>model_inputs, max_new_tokens<span class="op">=</span><span class="dv">250</span>,)<span class="co">#do_sample=True)</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tokenizer.batch_decode(generated_ids)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<pre><code>'&lt;s&gt; can you tell me about yourself?\n\nI’m a 20-year-old college student from the United States. I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and I’m currently studying at the University of California, Berkeley. I’m a student of the arts, and'</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="14">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#model_inputs.input_ids</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>token_dict <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(tokenizer.vocab.values(), tokenizer.vocab.keys()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="15">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="16">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model_inputs.input_ids.to(<span class="st">'cpu'</span>).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>torch.Size([1, 20533])</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="17">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sample_text_tokens <span class="op">=</span> pd.Series(model_inputs.input_ids.to(<span class="st">'cpu'</span>).squeeze()).<span class="bu">map</span>(token_dict)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>sample_text_tokens.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="17">
-<pre><code>0     &lt;s&gt;
-1     &lt;s&gt;
-2      ▁[
-3    INST
-4       ]
-dtype: object</code></pre>
-</div>
-</div>
-<div class="cell" data-tags="[]" data-execution_count="20">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sample_text_tokens[:<span class="dv">50</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="20">
-<pre><code>0         &lt;s&gt;
-1         &lt;s&gt;
-2          ▁[
-3        INST
-4           ]
-5        ▁Can
-6        ▁you
-7        ▁sum
-8           m
-9         ara
-10        ize
-11      ▁this
-12      ▁text
-13          ?
-14          ▁
-15     &lt;0x0A&gt;
-16         ▁▁
-17     &lt;0x0A&gt;
-18         ▁▁
-19     &lt;0x0A&gt;
-20       ▁▁▁▁
-21     &lt;0x0A&gt;
-22      ▁▁▁▁▁
-23     ▁Front
-24     ▁Micro
-25         bi
-26         ol
-27     &lt;0x0A&gt;
-28      ▁▁▁▁▁
-29     ▁Front
-30     ▁Micro
-31         bi
-32         ol
-33     &lt;0x0A&gt;
-34      ▁▁▁▁▁
-35     ▁Front
-36          .
-37     ▁Micro
-38         bi
-39         ol
-40          .
-41     &lt;0x0A&gt;
-42     ▁▁▁▁▁▁
-43     &lt;0x0A&gt;
-44    ▁▁▁▁▁▁▁
-45     ▁Front
-46       iers
-47        ▁in
-48     ▁Micro
-49         bi
-dtype: object</code></pre>
-</div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
